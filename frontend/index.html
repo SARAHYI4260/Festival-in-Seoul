@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>서울 페스티벌 지도 - Project Festival</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header class="header">
+      <h1>🗼 서울 축제 & 공연 모아보기</h1>
+      <p class="subtitle">서울시 구별 인기 페스티벌 한눈에 확인하기</p>
+
+      <div class="filter-box">
+        <select id="gu-select">
+          <option value="">전체 자치구 (서울)</option>
+          <option value="jongno">종로구</option>
+          <option value="mapo">마포구</option>
+          <option value="gangnam">강남구</option>
+          <option value="songpa">송파구</option>
+          <option value="yongsan">용산구</option>
+        </select>
+
+        <div class="search-box">
+          <input
+            type="text"
+            placeholder="축제명 또는 장소를 입력하세요 (예: 한강, 재즈)"
+          />
+          <button type="button">검색</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <h2>🔥 서울 인기 축제 TOP 3</h2>
+
+      <div class="card-grid">
+        <article class="card">
+          <div class="card-image">
+            <img
+              src="https://via.placeholder.com/300x200?text=Seoul+Music+Festival"
+              alt="서울 뮤직 페스티벌"
+            />
+          </div>
+          <div class="card-content">
+            <span class="badge">마포구</span>
+            <h3>2026 서울 뮤직 페스티벌</h3>
+            <p class="date">📅 2026.08.15 ~ 2026.08.17</p>
+            <p class="location">📍 상암 월드컵경기장</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-image">
+            <img
+              src="https://via.placeholder.com/300x200?text=Hangang+Festival"
+              alt="한강 빛섬 축제"
+            />
+          </div>
+          <div class="card-content">
+            <span class="badge">영등포구</span>
+            <h3>2026 한강 빛섬 축제</h3>
+            <p class="date">📅 2026.09.01 ~ 2026.09.10</p>
+            <p class="location">📍 여의도 한강공원</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-image">
+            <img
+              src="https://via.placeholder.com/300x200?text=Jongno+Culture+Fest"
+              alt="종로 한옥 문화제"
+            />
+          </div>
+          <div class="card-content">
+            <span class="badge">종로구</span>
+            <h3>종로 한옥 밤마실 축제</h3>
+            <p class="date">📅 2026.09.20 ~ 2026.09.22</p>
+            <p class="location">📍 북촌한옥마을 일대</p>
+          </div>
+        </article>
+      </div>
+    </main>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
