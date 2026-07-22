@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<!-- saved from url=(0041)http://127.0.0.1:5500/frontend/index.html -->
+<html lang="ko" crxlauncher=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>서울 페스티벌 지도 - Project Festival</title>
+    <link rel="stylesheet" href="./Open with Liver Server - 메인 페이지_files/style.css">
+  <script src="./Open with Liver Server - 메인 페이지_files/kakao.js"></script><style>undefined</style><link rel="preconnect" href="https://fonts.googleapis.com/" crossorigin="use-credentials"><link rel="preconnect" href="https://fonts.gstatic.com/"><link rel="stylesheet" href="./Open with Liver Server - 메인 페이지_files/css2"><style></style></head>
+  <body>
+    <header class="header">
+      <h1>🗼 서울 축제 &amp; 공연 모아보기</h1>
+      <p class="subtitle">서울시 구별 인기 페스티벌 한눈에 확인하기</p>
+
+      <div class="filter-box">
+        <select id="gu-select">
+          <option value="">전체 자치구 (서울)</option>
+          <option value="jongno">종로구</option>
+          <option value="mapo">마포구</option>
+          <option value="gangnam">강남구</option>
+          <option value="songpa">송파구</option>
+          <option value="yongsan">용산구</option>
+        </select>
+
+        <div class="search-box">
+          <input type="text" placeholder="축제명 또는 장소를 입력하세요 (예: 한강, 재즈)">
+          <button type="button">검 색</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="map-section" style="margin-bottom: 40px">
+        <h2>🗺️ 서울 축제 지도</h2>
+        <div id="map" style="width: 100%; height: 400px; border-radius: 12px; border: 1px solid rgb(221, 221, 221); background: url(&quot;http://t1.daumcdn.net/mapjsapi/images/2x/bg_tile.png&quot;); position: relative; overflow: hidden;"><div style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; touch-action: none; cursor: url(&quot;http://t1.daumcdn.net/mapjsapi/images/2x/cursor/openhand.cur.ico&quot;) 7 5, url(&quot;http://t1.daumcdn.net/mapjsapi/images/2x/cursor/openhand.cur.ico&quot;), default;"><div style="position: absolute;"><div style="position: absolute; z-index: 0;"></div><div style="position: absolute; z-index: 1; left: 0px; top: 0px;"><img src="./Open with Liver Server - 메인 페이지_files/53.png" alt="" draggable="false" style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: -206px; top: 191px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;"><img src="./Open with Liver Server - 메인 페이지_files/54.png" alt="" draggable="false" style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: 50px; top: 191px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;"><img src="./Open with Liver Server - 메인 페이지_files/55.png" alt="" draggable="false" style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: 306px; top: 191px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;"><img src="./Open with Liver Server - 메인 페이지_files/56.png" alt="" draggable="false" style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: 562px; top: 191px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;"><img src="./Open with Liver Server - 메인 페이지_files/57.png" alt="" draggable="false" style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: 818px; top: 191px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;"><img src="./Open with Liver Server - 메인 페이지_files/53(1).png" alt="" draggable="false" style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: -206px; top: -65px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;"><img src="./Open with Liver Server - 메인 페이지_files/54(1).png" alt="" draggable="false" style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: 50px; top: -65px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;"><img src="./Open with Liver Server - 메인 페이지_files/55(1).png" alt="" draggable="false" style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: 306px; top: -65px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;"><img src="./Open with Liver Server - 메인 페이지_files/56(1).png" alt="" draggable="false" style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: 562px; top: -65px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;"><img src="./Open with Liver Server - 메인 페이지_files/57(1).png" alt="" draggable="false" style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: 818px; top: -65px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;"><img src="./Open with Liver Server - 메인 페이지_files/53(2).png" alt="" draggable="false" style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: -206px; top: -321px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;"><img src="./Open with Liver Server - 메인 페이지_files/54(2).png" alt="" draggable="false" style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: 50px; top: -321px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;"><img src="./Open with Liver Server - 메인 페이지_files/55(2).png" alt="" draggable="false" style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: 306px; top: -321px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;"><img src="./Open with Liver Server - 메인 페이지_files/56(2).png" alt="" draggable="false" style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: 562px; top: -321px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;"><img src="./Open with Liver Server - 메인 페이지_files/57(2).png" alt="" draggable="false" style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: 818px; top: -321px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;"></div><div style="position: absolute; z-index: 1;"></div><div style="width: 958px; height: 398px; position: absolute; z-index: 1;"></div><div style="position: absolute; z-index: 1;"><svg version="1.1" style="stroke: none; stroke-dashoffset: 0.5; stroke-linejoin: round; fill: none; transform: translateZ(0px); position: absolute; width: 4790px; height: 1990px; left: -1916px; top: -796px;" viewBox="0 0 4790 1990"><defs></defs></svg></div><div style="position: absolute; z-index: 1; width: 100%; height: 0px; transform: translateZ(0px);"><div style="position: absolute; margin: -39px 0px 0px -14px; z-index: 0; left: 479px; top: 199px;"><img draggable="false" src="./Open with Liver Server - 메인 페이지_files/marker.png" alt="" role="presentation" title="" style="min-width: 0px; min-height: 0px; max-width: 99999px; max-height: none; border: 0px; display: block; position: absolute; user-select: none; -webkit-user-drag: none; clip: rect(0px, 29px, 42px, 0px); top: 0px; left: 0px; width: 29px; height: 42px;"><img src="./Open with Liver Server - 메인 페이지_files/transparent.gif" alt="" role="presentation" draggable="false" usemap="#daum.maps.Marker.Area:1" style="min-width: 0px; min-height: 0px; max-width: 99999px; max-height: none; border: 0px; display: block; position: absolute; user-select: none; -webkit-user-drag: none; width: 29px; height: 42px;"><map id="daum.maps.Marker.Area:1" name="daum.maps.Marker.Area:1"><area href="javascript:void(0)" alt="" role="presentation" shape="poly" coords="14,39,9,27,4,21,1,16,1,10,4,4,11,0,18,0,25,4,28,10,28,16,25,21,20,27" title="" style="-webkit-tap-highlight-color: transparent;"></map></div></div></div></div><div style="position: absolute; cursor: default; z-index: 1; margin: 0px 6px; height: 19px; line-height: 14px; left: 0px; bottom: 0px; color: rgb(0, 0, 0);"><div style="color: rgb(0, 0, 0); text-align: center; font-size: 10px; float: left;"><div style="float: left; margin: 2px 3px 0px 4px; height: 6px; transition: width 0.1s; border-width: medium 2px 2px; border-style: none solid solid; border-color: rgb(0, 0, 0); border-image: none; width: 58px;"></div><div style="float: left; margin: 0px 4px 0px 0px; font-family: AppleSDGothicNeo-Regular, 돋움, dotum, sans-serif; font-weight: bold; color: rgb(0, 0, 0);">1km</div></div><div style="margin: 0px 4px; float: left;"><a target="_blank" href="http://map.kakao.com/" style="float: left; width: 32px; height: 10px;"><img src="./Open with Liver Server - 메인 페이지_files/m_bi_b.png" alt="Kakao 맵으로 이동(새창열림)" style="float: left; width: 32px; height: 10px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none;"></a><div style="font: 11px / 11px Arial, Tahoma, Dotum, sans-serif; float: left;"></div></div></div><div style="cursor: auto; position: absolute; z-index: 2; left: 0px; top: 0px;"></div></div>
+      </section>
+
+      <h2>🔥 서울 인기 축제 TOP 3</h2>
+
+      <div class="card-grid">
+        <article class="card">
+          <div class="card-image">
+            <img src="./Open with Liver Server - 메인 페이지_files/photo-1470225620780-dba8ba36b745" alt="서울 뮤직 페스티벌">
+          </div>
+          <div class="card-content">
+            <span class="badge">마포구</span>
+            <h3>2026 서울 뮤직 페스티벌</h3>
+            <p class="date">📅 2026.08.15 ~ 2026.08.17</p>
+            <p class="location">📍 상암 월드컵경기장</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-image">
+            <img src="./Open with Liver Server - 메인 페이지_files/photo-1514525253161-7a46d19cd819" alt="한강 빛섬 축제">
+          </div>
+          <div class="card-content">
+            <span class="badge">영등포구</span>
+            <h3>2026 한강 빛섬 축제</h3>
+            <p class="date">📅 2026.09.01 ~ 2026.09.10</p>
+            <p class="location">📍 여의도 한강공원</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-image">
+            <img src="./Open with Liver Server - 메인 페이지_files/photo-1533174072545-7a4b6ad7a6c3" alt="종로 한옥 문화제">
+          </div>
+          <div class="card-content">
+            <span class="badge">종로구</span>
+            <h3>종로 한옥 밤마실 축제</h3>
+            <p class="date">📅 2026.09.20 ~ 2026.09.22</p>
+            <p class="location">📍 북촌한옥마을 일대</p>
+          </div>
+        </article>
+      </div>
+    </main>
+
+    <script type="text/javascript" src="./Open with Liver Server - 메인 페이지_files/sdk.js"></script>
+
+    <script src="./Open with Liver Server - 메인 페이지_files/main.js"></script>
+  <!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+
+
+</body></html>

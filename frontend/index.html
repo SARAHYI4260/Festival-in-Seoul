@@ -26,19 +26,33 @@
             type="text"
             placeholder="축제명 또는 장소를 입력하세요 (예: 한강, 재즈)"
           />
-          <button type="button">검색</button>
+          <button type="button">검 색</button>
         </div>
       </div>
     </header>
 
     <main class="container">
+      <section class="map-section" style="margin-bottom: 40px">
+        <h2>🗺️ 서울 축제 지도</h2>
+        <div
+          id="map"
+          style="
+            width: 100%;
+            height: 400px;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            background-color: #f8f9fa;
+          "
+        ></div>
+      </section>
+
       <h2>🔥 서울 인기 축제 TOP 3</h2>
 
       <div class="card-grid">
         <article class="card">
           <div class="card-image">
             <img
-              src="https://via.placeholder.com/300x200?text=Seoul+Music+Festival"
+              src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=500&q=80"
               alt="서울 뮤직 페스티벌"
             />
           </div>
@@ -53,7 +67,7 @@
         <article class="card">
           <div class="card-image">
             <img
-              src="https://via.placeholder.com/300x200?text=Hangang+Festival"
+              src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500&q=80"
               alt="한강 빛섬 축제"
             />
           </div>
@@ -68,7 +82,7 @@
         <article class="card">
           <div class="card-image">
             <img
-              src="https://via.placeholder.com/300x200?text=Jongno+Culture+Fest"
+              src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=500&q=80"
               alt="종로 한옥 문화제"
             />
           </div>
@@ -81,6 +95,11 @@
         </article>
       </div>
     </main>
+
+    <script
+      type="text/javascript"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=184f0ae3bb35a00493c12bac27b6c3ac&autoload=false"
+    ></script>
 
     <script src="js/main.js"></script>
   </body>
