@@ -1,0 +1,148 @@
+# 🛠️ 트러블슈팅 노트 (Troubleshooting & Study Log)
+
+> **프로젝트명:** Festival-in-Seoul  
+> **진행 내용:** 맥(macOS) 환경 폴더 구조 변경 및 Git 저장소 재연동 과정에서의 이슈 해결
+
+---
+
+## 📌 이슈 1. 폴더명 변경 및 맥(macOS) 파일 시스템 대소문자/공백 문제
+
+### 1. 문제 상황 (Problem)
+- 기존 폴더명 `FestivalInSeoul`을 `Festival in Seoul`로 변경하는 과정에서, 맥 Finder 상에서 폴더가 2개처럼 생기거나 껍데기 폴더가 생성되는 현상이 발생함.
+- 폴더명에 **공백(띄어쓰기)**이 포함되어 터미널 명령어 입력 시 문장 끊김 및 파일 경로 인식 오류가 일어남.
+
+### 2. 원인 분석 (Cause)
+- **맥 APFS 파일 시스템 특성:** 기본적으로 대소문자를 구별하지 않는(Case-insensitive) 특성이 있어 `FestivalInSeoul`과 `festivalinseoul`을 같은 위치로 인식함.
+- **터미널 명령어 한계:** 폴더 이름에 공백이 포함되면 터미널(Zsh/Bash)이 이를 별개의 명령어 구분자로 인식하여 에러를 발생시킴.
+
+### 3. 해결 방법 (Solution)
+- **개발 표준 파일명 적용:** 대소문자 미구별 문제와 공백 문제 방지를 위해 하이픈(`-`)을 사용한 **`Festival-in-Seoul`**로 폴더명을 통일함.
+- 기존에 꼬여있던 중복 폴더들을 삭제하고, `Festival-in-Seoul` 표준 폴더를 새로 생성하여 작업 파일들을 정돈함.
+
+---
+
+## 📌 이슈 2. 폴더 정돈 후 `fatal: not a git repository` 에러
+
+### 1. 문제 상황 (Problem)
+```bash
+➜  Festival-in-Seoul git add .
+fatal: not a git repository (or any of the parent directories): .git
+
+## 🗺️ 2주차: 카카오 지도 API 연동 및 트러블슈팅 (Troubleshooting)
+
+### 📌 개요 (Goal)
+- HTML/CSS로 구축한 웹 프론트엔드 레이아웃에 **카카오 지도 API**를 연동하여 화면 중앙에 서울시 지도를 렌더링하고 중심 좌표(서울시청)에 마커를 표시함.
+
+---
+
+### 🛠️ 주요 진행 내용 (Implementation)
+1. **카카오 개발자 센터 애플리케이션 생성**: `Festival-in-Seoul` 앱 등록 및 `JavaScript 키` 발급.
+2. **도메인 등록**: Live Server 환경 주소(`http://127.0.0.1:5500`, `http://localhost:5500`) 등록.
+3. **HTML / JS 연동**:
+   - `index.html` 내 지도가 위치할 `<div id="map">` 영역 생성.
+   - Kakao Maps SDK 라이브러리 스크립트 연결 (`autoload=false` 옵션 활용).
+   - `main.js` 파일에 지도 생성 및 서울시청 마커 찍기 로직 구현.
+
+---
+
+### 🚨 트러블슈팅 및 문제 해결 (Troubleshooting)
+
+개발 과정에서 발생한 주요 에러들과 원인 분석 및 해결 방법입니다.
+
+#### 1. `Uncaught ReferenceError: kakao is not defined`
+* **문제 상황**: 브라우저 콘솔(Console)창에 `kakao` 객체를 찾을 수 없다는 비동기 실행 에러 발생.
+* **원인**: Kakao 지도 SDK 스크립트가 완전히 로드되어 `kakao` 객체가 생성되기 전에 `main.js` 파일의 지도 생성 코드가 먼저 실행됨.
+* **해결 방법**:
+  - HTML 스크립트 태그 주소 끝에 `&autoload=false` 파라미터 추가.
+  - `main.js` 내에서 SDK 로드가 완료된 시점에 코드가 실행되도록 `kakao.maps.load(function() { ... })` 콜백 구조로 감싸고, 안전하게 DOM이 로드된 후 호출되도록 대기 함수 작성.
+
+```javascript
+function initKakaoMap() {
+  if (typeof kakao === 'undefined' || !kakao.maps) {
+    setTimeout(initKakaoMap, 100);
+    return;
+  }
+  kakao.maps.load(function () {
+    // 지도 생성 및 마커 로직
+  });
+}
+window.addEventListener('DOMContentLoaded', initKakaoMap);
+
+# 🏮 서울 축제 & 공연 모아보기 (Project Festival in Seoul)
+
+> **공공데이터포털 API와 Kakao Map API를 활용하여 서울시의 주요 축제 및 행사 정보를 지도 위에 실시간 마커로 제공하는 웹 서비스입니다.**
+
+---
+
+## 📌 프로젝트 소개
+* **프로젝트명**: 서울 축제 & 공연 모아보기 (Festival-in-Seoul)
+* **개발 기간**: 2026.07 ~ 진행 중
+* **GitHub Repository**: [SARAHYI4260/Festival-in-Seoul](https://github.com/SARAHYI4260/Festival-in-Seoul)
+
+---
+
+## 🛠️ Tech Stack (기술 스택)
+
+### Frontend & APIs
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
+![Kakao Maps](https://img.shields.io/badge/Kakao_Maps_API-FFCD00?style=flat-square&logo=kakao&logoColor=black)
+![Public Data](https://img.shields.io/badge/공공데이터포털_API-003366?style=flat-square&logoColor=white)
+
+### Version Control & Tools
+![Git](https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white)
+![VS Code](https://img.shields.io/badge/VS_Code-007ACC?style=flat-square&logo=visualstudiocode&logoColor=white)
+
+---
+
+## 📅 주차별 진행 상황
+
+### 📍 1주차: 프로젝트 개발 환경 구축 및 Git 관리
+- VS Code, Live Server 연동 환경 세팅
+- Git / GitHub 저장소 연동 및 기본 프로젝트 구조 설계
+- 경로/폴더명 이슈 해결 및 형상 관리 체계 확립
+
+### 📍 2주차: UI 레이아웃 설계 & Kakao Map API 연동
+- 검색 필터, 헤더, 마커 지도를 포함한 Responsive Web UI 제작
+- Kakao Developers 도메인 등록 및 Kakao Map SDK 연동
+- 비동기 스크립트 로딩 시 발생한 `kakao is not defined` 트러블슈팅 완수
+
+### 📍 3주차: 공공데이터 API 연동 및 다중 마커 표시
+- 공공데이터포털 (`한국관광공사_국문 관광정보 서비스`) 오픈 API 활용 신청
+- JavaScript `fetch()`를 통한 비동기 데이터 파싱
+- API 응답 데이터 기반 서울시 축제 위도/경도 좌표 추출 및 지도 위 다중 마커 자동 표시
+
+---
+
+## 💥 Troubleshooting (트러블슈팅)
+
+### 1. External API 호출 시 401 (Unauthorized) 오류
+- **문제**: API 호출 시 401 인증 실패 오류 발생.
+- **원인**: JavaScript Template Literal 사용 과정에서 키 변수 전달 시 문자열 내 기호(`$`) 파싱 오류 발생.
+- **해결**: `API_KEY` 변수에 순수 문자열 형태의 Decoding Key만 전달하도록 수정하여 올바른 인증 처리 완료.
+
+### 2. JSON 파싱 에러 (`Unexpected token '<'`)
+- **문제**: `response.json()` 처리 과정에서 파싱 에러 발생.
+- **원인**: 잘못된 API 엔드포인트 요청으로 서버에서 XML 형식의 에러 응답이 반환됨.
+- **해결**: 한국관광공사 API 규격에 맞는 정확한 Request URL 구조로 갱신하여 JSON 응답 수신 성공.
+
+### 3. API 파라미터 규격 불일치 (`INVALID_REQUEST_PARAMETER_ERROR`)
+- **문제**: API 서버 응답 코드가 `10`으로 리턴되며 `data.response.body` 호출 시 `TypeError` 발생.
+- **원인**: 더 이상 제공되지 않는 `listYN` 파라미터가 URL에 포함됨.
+- **해결**: URL에서 불필요한 파라미터를 정돈하고 데이터 구조에 안전 조건문(`if (data.response?.body)`)을 추가하여 무결성 확보.
+
+개발 환경 세팅 완수: Java 17(JDK) 설치 및 백엔드 전용 IDE인 IntelliJ IDEA 설치 완료.
+
+Spring Boot 프로젝트 생성: start.spring.io를 통해 프로젝트 뼈대 생성 및 필수 의존성(Spring Web, Lombok) 추가.
+
+첫 REST API 구축 (TestController.java):
+
+@RestController와 @GetMapping("/api/test") 어노테이션을 활용해 백엔드 응답 컨트롤러 작성.
+
+로컬 서버 실행 & 통신 확인:
+
+Embedded Tomcat 서버를 8080 포트로 정상 가동.
+
+브라우저에서 http://localhost:8080/api/test에 접속하여 "Hello World! ..." 메시지 수신 성공!
