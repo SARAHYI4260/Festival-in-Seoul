@@ -1,0 +1,71 @@
+# 🏮 Festival-in-Seoul (서울 축제 & 공연 모아보기)
+
+> **공공데이터 API와 Kakao Map API를 활용하여 서울시의 주요 축제 및 행사 정보를 지도 위에 실시간 마커로 제공하고, Spring Boot 백엔드로 데이터 파이프라인을 구축하는 웹 서비스 프로젝트입니다.**
+
+---
+
+## 📌 프로젝트 소개
+* **프로젝트명:** Festival-in-Seoul
+* **개발 기간:** 2026.07 ~ 진행 중
+* **GitHub Repository:** [SARAHYI4260/Festival-in-Seoul](https://github.com/SARAHYI4260/Festival-in-Seoul)
+
+---
+
+## 🛠️ Tech Stack (기술 스택)
+
+### Frontend & APIs
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
+![Kakao Maps](https://img.shields.io/badge/Kakao_Maps_API-FFCD00?style=flat-square&logo=kakao&logoColor=black)
+![Public Data](https://img.shields.io/badge/공공데이터포털_API-003366?style=flat-square&logoColor=white)
+
+### Backend & Database
+![Java 17](https://img.shields.io/badge/Java_17-007396?style=flat-square&logo=java&logoColor=white)
+![Spring Boot 3.2](https://img.shields.io/badge/Spring_Boot-6DB33F?style=flat-square&logo=springboot&logoColor=white)
+![Spring Data JPA](https://img.shields.io/badge/Spring_Data_JPA-6DB33F?style=flat-square&logoColor=white)
+![H2 Database](https://img.shields.io/badge/H2_Database-02303A?style=flat-square&logoColor=white)
+
+### Tools & Environment
+![Git](https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white)
+![VS Code](https://img.shields.io/badge/VS_Code-007ACC?style=flat-square&logo=visualstudiocode&logoColor=white)
+![IntelliJ IDEA](https://img.shields.io/badge/IntelliJ_IDEA-000000?style=flat-square&logo=intellijidea&logoColor=white)
+
+---
+
+## 📅 진행 로드맵 & 개발 요약
+
+### 📍 1일차: 개발 환경 세팅 & Git 관리 체계 구축
+* [cite_start]VS Code 및 Live Server 환경 세팅 [cite: 1126, 1690, 1692]
+* [cite_start]HTML5/CSS3 기반 Responsive Web 레이아웃(검색창, 헤더, 카드 UI) 설계 [cite: 1127, 1176]
+* [cite_start]macOS 폴더명 명명 규칙 정립 및 GitHub 원격 저장소 연동 [cite: 1210, 1273]
+
+### 📍 2일차: Kakao Map API 연동 및 화면 렌더링
+* [cite_start]Kakao Developers 앱 생성 및 Live Server 도메인 승인 설정 [cite: 1395, 1398]
+* [cite_start]JavaScript 비동기 SDK 스크립트 연결 (`autoload=false` 적용) [cite: 1401, 1460]
+* [cite_start]서울시청 좌표 중심 지도 렌더링 및 마커 표시 구현 [cite: 1404, 1405]
+
+### 📍 3일차: 공공데이터 API 연동 및 다중 마커 표시
+* [cite_start]공공데이터포털(`한국관광공사_국문 관광정보 서비스`) API 발급 및 연동 [cite: 966, 1108]
+* [cite_start]`fetch()` API 기반 비동기 데이터 파싱 로직 구현 [cite: 965, 1117]
+* [cite_start]수신한 축제 좌표(위/경도) 기반 Kakao Map 다중 마커 동적 자동 생성 [cite: 976, 1118]
+
+### 📍 4주차(4일차): Java & Spring Boot 백엔드 환경 구축
+* [cite_start]Java 17(JDK) 및 IntelliJ IDEA 개발 환경 세팅 [cite: 1863, 1864]
+* [cite_start]Spring Initializr 기반 Spring Boot 프로젝트 뼈대 생성 (Spring Web, Lombok) [cite: 1868, 1869]
+* [cite_start]RestController 기반 첫 테스트 API (`GET /api/test`) 엔드포인트 구축 [cite: 1878, 1879]
+
+### 📍 5주차(5일차): 백엔드 공공 API 수집 & H2 DB 적재 파이프라인
+* [cite_start]H2 인메모리 데이터베이스 및 Spring Data JPA 환경 설정 [cite: 1745, 1753]
+* [cite_start]`Festival` Entity 및 `FestivalRepository` ORM 설계 [cite: 1848, 1852]
+* [cite_start]`RestTemplate` 및 `ObjectMapper`를 활용한 외부 공공 API 데이터 수집/DB 적재 로직 구축 [cite: 1714, 1715]
+
+---
+
+## 📝 상세 개발일지 및 트러블슈팅
+
+프로젝트 진행 과정에서 발생한 상세 문제 해결 과정과 일자별 학습 기록은 아래 개별 문서에서 확인하실 수 있습니다.
+
+* 📅 **[일자별 상세 개발 일지 (`docs/DAILY_LOG.md`)](./docs/DAILY_LOG.md)**
+* 🛠️ **[트러블슈팅 & 문제 해결 기록 (`docs/TROUBLESHOOTING.md`)](./docs/TROUBLESHOOTING.md)**
