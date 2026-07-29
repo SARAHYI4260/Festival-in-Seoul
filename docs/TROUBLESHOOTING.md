@@ -224,3 +224,47 @@ public class TestController {
    - `ObjectMapper` 및 `JsonNode` 기반으로 응답 파싱 구조를 개편하고 예외 처리 로직을 적용하여 안정적으로 JSON 데이터를 파싱, 5개의 데이터가 H2 DB 테이블에 정상 적재되도록 조치함.
 
 ---
+
+## [이슈 01] 백엔드 연동 후 카카오 지도 마커 미출력 문제 (좌표 필드명 불일치)
+
+### 1. 문제 상황 (Problem)
+
+- 외부 공공 API 직접 호출 방식에서 내 백엔드 API (`http://localhost:8080/api/festivals`) 연동 방식으로 변경한 후, 카카오 지도는 정상적으로 화면에 노출되나 마커가 전혀 찍히지 않는 현상 발생.
+- 콘솔 출력: `✅ 성공적으로 생성된 마커 개수: 0개`
+
+### 2. 원인 분석 (Cause)
+
+- **공공 API JSON 구조**: 기존 공공 API 호출 시에는 위도/경도 속성명이 `mapy`, `mapx`였음.
+- **내 백엔드 DB Entity 구조**: 백엔드 DB에는 `lat`, `lot` 필드명으로 저장되어 있었으나, `main.js`의 마커 생성 반복문에서 여전히 `item.mapy`, `item.mapx`를 참조하려고 하여 `undefined` 및 `NaN` 에러가 발생함.
+
+### 3. 해결 방법 (Solution)
+
+- `main.js` 내 마커 생성 로직의 좌표 파싱 구문을 백엔드 DB 속성명(`item.lat`, `item.lot`) 및 다양한 예외 상황에 대비할 수 있도록 유연하게 수정함.
+
+```javascript
+// 백엔드 DB 필드명(lat, lot)에 맞게 좌표 설정
+var lat = parseFloat(item.lat || item.latitude || item.mapy);
+var lng = parseFloat(item.lot || item.longitude || item.lng || item.mapx);
+
+if (!isNaN(lat) && !isNaN(lng) && lat !== 0 && lng !== 0) {
+  var markerPosition = new kakao.maps.LatLng(lat, lng);
+  var marker = new kakao.maps.Marker({ position: markerPosition });
+  marker.setMap(map);
+}
+
+## [이슈 02] 백엔드 응답 빈 배열(`Array(0)`)로 인한 마커 미노출 문제
+
+### 1. 문제 상황 (Problem)
+- 백엔드 주소 변경 후 카카오 지도는 정상 작동하나 마커가 전혀 표시되지 않음.
+- 브라우저 개발자 도구 콘솔에 `📦 백엔드에서 넘어온 전체 데이터: Array(0)`, `⚠️ 백엔드 DB가 비어있습니다!` 메시지 출력.
+
+### 2. 원인 분석 (Cause)
+- Spring Boot 백엔드 서버는 정상 가동 중이었으나, DB(H2)에 축제 데이터가 초기화되거나 수집되지 않아 엔드포인트(`http://localhost:8080/api/festivals`) 호출 시 빈 배열(`[]`)만 반환함.
+
+### 3. 해결 방법 (Solution)
+1. 백엔드의 데이터 수집 전용 엔드포인트인 `http://localhost:8080/api/festivals/save`를 호출하여 서울시 공공 API 데이터를 H2 DB에 적재함.
+2. 추가로 서버가 켜질 때 자동으로 DB 수집 로직이 작동하도록 `@PostConstruct` 방식을 적용함.
+3. 데이터 적재 후 프론트엔드를 새로고침하여 5개의 JSON 축제 데이터를 수신하고 지도에 마커 5개가 정상 표시됨을 확인함.
+```
+
+---
