@@ -3,6 +3,7 @@ package Jar.controller;
 import Jar.domain.Festival;
 import Jar.service.FestivalService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.CrossOrigin; // ⭐ missing import 추가
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,12 +12,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/festivals")
+@CrossOrigin(origins = "*") // ⭐ CORS 브라우저 보안 차단 해제
 @RequiredArgsConstructor
 public class FestivalApiController {
 
     private final FestivalService festivalService;
 
-    // 1. 공공 API 호출해서 DB에 데이터 저장하기 (수집 트래픽 실행)
+    // 1. 공공 API 호출해서 DB에 데이터 저장하기
     @GetMapping("/save")
     public String saveFestivals() {
         int count = festivalService.fetchAndSaveFestivals();
