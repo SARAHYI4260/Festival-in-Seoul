@@ -3,10 +3,7 @@ package Jar.controller;
 import Jar.domain.Festival;
 import Jar.service.FestivalService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin; // ⭐ missing import 추가
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,8 +23,12 @@ public class FestivalApiController {
     }
 
     // 2. DB에 저장된 모든 축제 데이터 JSON으로 조회하기
-    @GetMapping
-    public List<Festival> getAllFestivals() {
-        return festivalService.getAllFestivals();
+    // 검색 및 필터링 API (지역 / 키워드 / 날짜)
+    @GetMapping("/search")
+    public List<Festival> searchFestivals(
+            @RequestParam(required = false) String district,
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) String date) {
+        return festivalService.searchFestivals(district, keyword, date);
     }
 }

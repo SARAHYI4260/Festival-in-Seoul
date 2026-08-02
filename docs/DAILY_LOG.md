@@ -167,3 +167,58 @@ Local Repository 생성 (git init) 및 Remote Repository 연결
 - `GET /api/festivals` 접속 시 저장된 축제 데이터 리스트가 규격화된 JSON 배열 형태로 정상 출력 확인
 
 ---
+
+## [6일차] 백엔드 REST API 연동 및 카카오 지도 다중 마커 표시
+
+### 1. 작업 내용
+
+- **백엔드(Spring Boot) Cross-Origin 설정**: 브라우저 CORS 정책으로 인한 통신 차단을 방지하기 위해 `FestivalApiController` 상단에 `@CrossOrigin(origins = "*")` 어노테이션 추가.
+- **프론트엔드 API 호출 주소 변경**: `main.js` 내 외부 공공 API 직접 호출 코드를 내 백엔드 서버 주소(`http://localhost:8080/api/festivals`)로 변경.
+- **서울시 공공데이터 수집 및 DB 적재**: `/api/festivals/save` 엔드포인트를 호출하여 서울시 공공 API의 축제 데이터를 H2 데이터베이스에 5건 성공적으로 적재.
+- **카카오 지도 마커 동적 렌더링**: 백엔드 DB에서 넘어온 JSON 데이터의 위도/경도(`lat`, `lot`) 값을 파싱하여 카카오 지도 위에 5개 축제 위치 마커 동적 생성 완료.
+
+---
+
+### 2. 기술적 성과 및 배운 점
+
+- **REST API 통신 흐름 이해**: `Client (Browser)` ➔ `Spring Boot Controller` ➔ `Service` ➔ `Repository (H2 DB)`로 이어지는 백엔드 데이터 흐름과 JSON 파싱 과정을 체계적으로 정립함.
+- **CORS (Cross-Origin Resource Sharing) 이해**: 서로 다른 포트(5500 Live Server ➔ 8080 Spring Boot) 간 통신 시 발생하는 보안 차단 메커니즘과 이를 백엔드에서 허용해주는 방식을 학습함.
+
+## 📅 [7일차] 검색 기능 및 다중 필터링(지역/날짜/키워드) 구현
+
+### 1. 작업 내용 Summary
+
+- **검색 & 동적 필터링 기능 연동**: 자치구(지역), 날짜, 키워드(축제명/장소) 기반의 통합 검색 기능 구현
+- **백엔드 JPQL 동적 쿼리 작성**: `@Query`와 `CONCAT`을 활용하여 선택적 조건(Null / Empty 문자열) 검색 로직 구현
+- **서버 초기화 자동화**: `@PostConstruct`를 활용해 애플리케이션 시작 시 서울시 공공 API 데이터가 자동 수집되도록 개선
+- **카카오 지도 UX 향상**: 검색 결과에 맞춰 지도의 마커 및 영역(Bounds) 자동 재설정, 마커 클릭 시 InfoWindow(팝업창) 노출 기능 추가
+
+---
+
+### 2. 주요 구현 내용
+
+#### 🟢 Backend (Spring Boot)
+
+1. **`FestivalRepository.java`**
+   - 지역, 키워드, 기간(시작일 <= 검색일 <= 종료일) 조건이 입력된 경우에만 동적으로 반영하는 JPQL 작성
+2. **`FestivalService.java`**
+   - `@PostConstruct` 메서드(`init()`)를 추가하여 DB가 비어있을 경우 자동으로 공공 API 데이터를 호출하도록 구현
+   - 검색 파라미터 정제 및 Repository 연결
+3. **`FestivalApiController.java`**
+   - GET `/api/festivals/search` 엔드포인트 확장 (`district`, `keyword`, `date` 파라미터 수신)
+
+#### 🔵 Frontend (HTML / JS)
+
+1. **`index.html`**
+   - 자치구 선택 `<select>`, 날짜 피커 `<input type="date">`, 키워드 입력창 `<input type="text">` 구성
+2. **`main.js`**
+   - 사용자 입력 데이터를 쿼리 스트링으로 변환해 백엔드 API 호출 (`fetch`)
+   - 받아온 JSON 데이터를 기반으로 카카오 지도 마커 지우기/재생성 및 클릭 이벤트(InfoWindow) 바인딩
+
+---
+
+### 3. 학습 및 배운 점 (Retrospective)
+
+- **RESTful API 데이터 연결**: 프론트엔드의 Event Handling(클릭/변경/엔터)과 백엔드의 Controller 파라미터 바인딩 매핑 흐름을 확립함
+- **데이터 흐름과 Lifecycle**: In-Memory H2 DB 환경에서 애플리케이션 구동 타이밍과 데이터 저장 시점의 중요성을 이해함 (`@PostConstruct` 적용)
+- **사용자 경험(UX) 개선**: 단순 마커 표시를 넘어 상세 정보창(InfoWindow) 제공과 검색 조건 변경에 따른 지도 경계(`setBounds`) 자동 맞춤의 필요성을 체감함

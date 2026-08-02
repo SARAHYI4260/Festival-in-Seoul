@@ -268,3 +268,78 @@ if (!isNaN(lat) && !isNaN(lng) && lat !== 0 && lng !== 0) {
 ```
 
 ---
+
+## 🚨 [Trouble Shooting 04] 검색 필터링 미작동 및 DB 데이터 누락으로 인한 조회 실패
+
+### 1. 문제 상황 (Issue)
+
+- **현상 1**: 프론트엔드에서 자치구 필터를 선택하고 검색해도 검색 결과가 반환되지 않거나, 라이브 서버 접속 시 "검색 결과가 없습니다." 팝업이 지속적으로 노출됨.
+- **현상 2**: 서버 재시작 후 화면 연동 시 지도 위에 마커가 아무것도 찍히지 않음.
+
+---
+
+### 2. 원인 분석 (Root Cause)
+
+1. **HTML - JS - DB 데이터 규격 및 ID 불일치**
+   - HTML 태그 ID는 `gu-select`였으나, JS에서는 `district-select`로 참조하여 선택값을 읽어오지 못함.
+   - HTML `<option>`의 `value`가 영문(`jongno`, `mapo`)으로 설정되어 있어, DB 내 한글 장소 데이터(`"종로구"`, `"마포구"`)와 조건이 맞지 않아 JPA 검색 실패.
+2. **H2 In-Memory DB 초기화 및 데이터 미존재**
+   - 애플리케이션이 재시작되면 H2 DB의 데이터가 초기화되는데, 프론트엔드에서 데이터 저장 API(`/api/festivals/save`) 호출 없이 바로 검색 API를 불러 빈 배열(`[]`)이 반환됨.
+
+---
+
+### 3. 해결 방법 및 코드 (Resolution)
+
+#### 해결 1: HTML/JS DOM ID 및 Value 한글 일치화
+
+- `index.html`의 드롭다운 ID를 `district-select`로 맞추고, `value`를 DB 규격과 동일한 한글("종로구", "마포구" 등)로 수정.
+
+```html
+<select id="district-select">
+  <option value="">전체 자치구 (서울)</option>
+  <option value="종로구">종로구</option>
+  <option value="마포구">마포구</option>
+</select>
+```
+
+#### 🟢 [해결 2] `@PostConstruct`를 활용한 서버 구동 시 자동 데이터 수집 구현
+
+1. **문제 상황 및 원인**
+   - In-Memory DB(H2) 특성상 백엔드 서버(Spring Boot)가 재시작될 때마다 저장된 데이터가 초기화됨.
+   - 서버를 실행한 후 프론트엔드(Live Server)에서 바로 검색을 시도하면 DB에 데이터가 없어 빈 배열(`[]`)이 반환되며 "검색 결과가 없습니다" 알림창이 발생함.
+   - 매번 수동으로 수집 API(`http://localhost:8080/api/festivals/save`)를 호출해야 하는 번거로움이 존재함.
+
+2. **해결 방법**
+   - 백엔드 서비스 클래스(`FestivalService`)에 `@PostConstruct` 어노테이션을 적용한 `init()` 메서드를 추가함.
+   - 스프링 의존성 주입(DI) 완료 직후, `festivalRepository.count() == 0` 조건을 통해 DB가 비어있는지 확인하고, 비어있을 경우 자동으로 공공 API 데이터를 수집·저장하도록 로직을 구현함.
+
+3. **적용 코드 (`FestivalService.java`)**
+
+```java
+package Jar.service;
+
+import Jar.domain.Festival;
+import Jar.domain.FestivalRepository;
+import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@RequiredArgsConstructor
+public class FestivalService {
+
+    private final FestivalRepository festivalRepository;
+
+    // 💡 백엔드 서버가 시작될 때 DB가 비어있으면 자동으로 공공 API 데이터 수집 및 저장
+    @PostConstruct
+    public void init() {
+        if (festivalRepository.count() == 0) {
+            fetchAndSaveFestivals();
+            System.out.println("🚀 [자동 실행] 앱 시작 시 샘플 데이터 자동 수집 완료!");
+        }
+    }
+
+    // ... 기존 fetchAndSaveFestivals() 및 searchFestivals() 비즈니스 로직
+}
+```

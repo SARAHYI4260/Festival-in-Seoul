@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
+import jakarta.annotation.PostConstruct;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -18,9 +19,25 @@ import java.util.List;
 public class FestivalService {
 
     private final FestivalRepository festivalRepository;
-
-    // 💡 서울시 열린데이터 광장 공식 테스트용 샘플키
     private final String API_KEY = "sample";
+
+    // 💡 서버가 시작될 때 자동으로 공공 API 데이터를 수집해 저장하는 메서드
+    @PostConstruct
+    public void init() {
+        if (festivalRepository.count() == 0) { // DB가 비어있을 때만 실행
+            fetchAndSaveFestivals();
+            System.out.println("🚀 [자동 실행] 앱 시작 시 샘플 데이터 자동 수집 완료!");
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public List<Festival> searchFestivals(String district, String keyword, String date) {
+        String cleanDistrict = (district != null && !district.trim().isEmpty() && !district.equals("전체")) ? district : null;
+        String cleanKeyword = (keyword != null && !keyword.trim().isEmpty()) ? keyword : null;
+        String cleanDate = (date != null && !date.trim().isEmpty()) ? date : null;
+
+        return festivalRepository.searchWithFilters(cleanDistrict, cleanKeyword, cleanDate);
+    }
 
     @Transactional
     public int fetchAndSaveFestivals() {

@@ -1,63 +1,114 @@
 kakao.maps.load(function () {
-  // 1. 지도 생성 (서울시청 중심)
-  var mapContainer = document.getElementById("map"),
-    mapOption = {
-      center: new kakao.maps.LatLng(37.5665, 126.978),
-      level: 7,
-    };
+  var mapContainer = document.getElementById("map");
+  var mapOption = {
+    center: new kakao.maps.LatLng(37.5665, 126.978),
+    level: 7,
+  };
   var map = new kakao.maps.Map(mapContainer, mapOption);
 
-  // 2. 한국관광공사 Decoding 인증키
-  var API_KEY =
-    "c680e733c55eeffd3c6242b4c79700a4ed192e6eb37edb4624d63acfe45517ef";
+  var markers = [];
+  var currentInfoWindow = null;
 
-  // 3. 한국관광공사 행사/축제 조회 API URL (listYN 제거 및 정돈)
-  var openApiUrl = `https://apis.data.go.kr/B551011/KorService2/searchFestival2?serviceKey=${API_KEY}&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=FestivalApp&_type=json&arrange=A&areaCode=1&eventStartDate=20260101`;
+  function removeMarkers() {
+    for (var i = 0; i < markers.length; i++) {
+      markers[i].setMap(null);
+    }
+    markers = [];
+  }
 
-  // 4. fetch 요청
-  kakao.maps.load(function () {
-    // 1. 지도 기본 위치 설정 (서울시청 기준)
-    var mapContainer = document.getElementById("map"),
-      mapOption = {
-        center: new kakao.maps.LatLng(37.5665, 126.978),
-        level: 7,
-      };
-    var map = new kakao.maps.Map(mapContainer, mapOption);
+  function loadFestivals(district, keyword, date) {
+    var url = "http://localhost:8080/api/festivals/search?";
+    if (district) url += "district=" + encodeURIComponent(district) + "&";
+    if (keyword) url += "keyword=" + encodeURIComponent(keyword) + "&";
+    if (date) url += "date=" + encodeURIComponent(date);
 
-    // 2. 내 백엔드 API (http://localhost:8080/api/festivals) 데이터 호출
-    fetch("http://localhost:8080/api/festivals")
+    console.log("🚀 백엔드 요청 URL:", url);
+
+    fetch(url)
       .then((response) => response.json())
       .then((data) => {
-        console.log("📦 백엔드에서 넘어온 전체 데이터:", data);
-        console.log("📊 데이터 개수:", data.length);
+        removeMarkers();
 
-        if (Array.isArray(data) && data.length > 0) {
-          var count = 0;
-          data.forEach(function (item) {
-            // 💡 백엔드 필드명이 다를 경우에 대비해 모든 가능성을 수용하도록 처리
-            var lat = parseFloat(item.lat || item.latitude || item.mapy);
-            var lng = parseFloat(
-              item.lot || item.longitude || item.lng || item.mapx,
-            );
+        if (!data || data.length === 0) {
+          alert("검색 결과가 없습니다.");
+          return;
+        }
 
-            if (!isNaN(lat) && !isNaN(lng) && lat !== 0 && lng !== 0) {
-              var markerPosition = new kakao.maps.LatLng(lat, lng);
-              var marker = new kakao.maps.Marker({
-                position: markerPosition,
-              });
-              marker.setMap(map);
-              count++;
-            } else {
-              console.warn("⚠️ 좌표값을 읽을 수 없는 항목:", item);
-            }
-          });
-          console.log(`✅ 성공적으로 생성된 마커 개수: ${count}개`);
-        } else {
-          console.warn("⚠️ 백엔드 DB가 비어있습니다!");
+        var bounds = new kakao.maps.LatLngBounds();
+        var markerCount = 0;
+
+        data.forEach((item) => {
+          var lat = item.lat;
+          var lng = item.lot;
+
+          if (lat && lng) {
+            var position = new kakao.maps.LatLng(lat, lng);
+            var marker = new kakao.maps.Marker({
+              map: map,
+              position: position,
+            });
+
+            // 💡 마커 클릭 시 정보창(InfoWindow) 노출
+            var iwContent = `<div style="padding:10px;font-size:12px;width:180px;">
+                <strong>${item.title}</strong><br>
+                📍 ${item.place || "장소 미정"}<br>
+                📅 ${item.startDate} ~ ${item.endDate}
+              </div>`;
+
+            var infowindow = new kakao.maps.InfoWindow({
+              content: iwContent,
+              removable: true,
+            });
+
+            kakao.maps.event.addListener(marker, "click", function () {
+              if (currentInfoWindow) currentInfoWindow.close();
+              infowindow.open(map, marker);
+              currentInfoWindow = infowindow;
+            });
+
+            markers.push(marker);
+            bounds.extend(position);
+            markerCount++;
+          }
+        });
+
+        if (markerCount > 0) {
+          map.setBounds(bounds);
         }
       })
-      .catch((error) => {
-        console.error("❌ API 호출 실패:", error);
-      });
-  });
+      .catch((error) => console.error("❌ API 불러오기 실패:", error));
+  }
+
+  // 최초 전체 데이터 로드
+  loadFestivals("", "", "");
+
+  var searchBtn = document.getElementById("search-btn");
+  var districtSelect = document.getElementById("district-select");
+  var dateSelect = document.getElementById("date-select");
+  var searchInput = document.getElementById("search-input");
+
+  function doSearch() {
+    var district = districtSelect ? districtSelect.value : "";
+    var date = dateSelect ? dateSelect.value : "";
+    var keyword = searchInput ? searchInput.value.trim() : "";
+
+    console.log(
+      "🔍 검색 조건 - 자치구:",
+      district,
+      "| 날짜:",
+      date,
+      "| 키워드:",
+      keyword,
+    );
+    loadFestivals(district, keyword, date);
+  }
+
+  if (searchBtn) searchBtn.addEventListener("click", doSearch);
+  if (districtSelect) districtSelect.addEventListener("change", doSearch);
+  if (dateSelect) dateSelect.addEventListener("change", doSearch);
+  if (searchInput) {
+    searchInput.addEventListener("keypress", function (e) {
+      if (e.key === "Enter") doSearch();
+    });
+  }
 });

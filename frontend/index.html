@@ -12,21 +12,25 @@
       <p class="subtitle">서울시 구별 인기 페스티벌 한눈에 확인하기</p>
 
       <div class="filter-box">
-        <select id="gu-select">
+        <select id="district-select">
           <option value="">전체 자치구 (서울)</option>
-          <option value="jongno">종로구</option>
-          <option value="mapo">마포구</option>
-          <option value="gangnam">강남구</option>
-          <option value="songpa">송파구</option>
-          <option value="yongsan">용산구</option>
+          <option value="종로구">종로구</option>
+          <option value="마포구">마포구</option>
+          <option value="강남구">강남구</option>
+          <option value="송파구">송파구</option>
+          <option value="용산구">용산구</option>
+          <option value="영등포구">영등포구</option>
         </select>
+
+        <input type="date" id="date-select" />
 
         <div class="search-box">
           <input
             type="text"
-            placeholder="축제명 또는 장소를 입력하세요 (예: 한강, 재즈)"
+            id="search-input"
+            placeholder="축제명 또는 장소를 입력하세요"
           />
-          <button type="button">검 색</button>
+          <button id="search-btn">검 색</button>
         </div>
       </div>
     </header>
