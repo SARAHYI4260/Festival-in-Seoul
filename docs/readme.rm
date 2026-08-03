@@ -1,71 +1,83 @@
-# 🏮 Festival-in-Seoul (서울 축제 & 공연 모아보기)
+# 🎡 Festival-in-Seoul (서울 축제/행사 지도 서비스)
 
-> **공공데이터 API와 Kakao Map API를 활용하여 서울시의 주요 축제 및 행사 정보를 지도 위에 실시간 마커로 제공하고, Spring Boot 백엔드로 데이터 파이프라인을 구축하는 웹 서비스 프로젝트입니다.**
-
----
-
-## 📌 프로젝트 소개
-* **프로젝트명:** Festival-in-Seoul
-* **개발 기간:** 2026.07 ~ 진행 중
-* **GitHub Repository:** [SARAHYI4260/Festival-in-Seoul](https://github.com/SARAHYI4260/Festival-in-Seoul)
+> **서울시 내 모든 축제 및 문화행사 정보를 한눈에 지도와 카드로 확인하고, 지역/키워드별로 검색할 수 있는 위치 기반 백엔드/프론트엔드 통합 웹 서비스입니다.**
 
 ---
 
-## 🛠️ Tech Stack (기술 스택)
+## 📌 프로젝트 소개 (Overview)
 
-### Frontend & APIs
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
-![Kakao Maps](https://img.shields.io/badge/Kakao_Maps_API-FFCD00?style=flat-square&logo=kakao&logoColor=black)
-![Public Data](https://img.shields.io/badge/공공데이터포털_API-003366?style=flat-square&logoColor=white)
-
-### Backend & Database
-![Java 17](https://img.shields.io/badge/Java_17-007396?style=flat-square&logo=java&logoColor=white)
-![Spring Boot 3.2](https://img.shields.io/badge/Spring_Boot-6DB33F?style=flat-square&logo=springboot&logoColor=white)
-![Spring Data JPA](https://img.shields.io/badge/Spring_Data_JPA-6DB33F?style=flat-square&logoColor=white)
-![H2 Database](https://img.shields.io/badge/H2_Database-02303A?style=flat-square&logoColor=white)
-
-### Tools & Environment
-![Git](https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white)
-![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white)
-![VS Code](https://img.shields.io/badge/VS_Code-007ACC?style=flat-square&logo=visualstudiocode&logoColor=white)
-![IntelliJ IDEA](https://img.shields.io/badge/IntelliJ_IDEA-000000?style=flat-square&logo=intellijidea&logoColor=white)
+- **개발 기간**: 2026년 7월 ~ 2026년 8월 (8주 차 MVP 완료)
+- **기획 배경**: 파편화되어 있는 서울시 문화행사 및 축제 정보를 한곳에 모아, 카카오 지도 API와 연동해 사용자가 손쉽게 원하는 지역의 축제 위치와 정보를 찾을 수 있도록 개발했습니다.
+- **주요 목표**:
+  - 공공 API 데이터 수집 파이프라인 구축 및 DB 자동 적재 (`@PostConstruct`)
+  - RESTful API 구축 및 다중 조건(자치구, 검색어, 날짜) 필터링
+  - Kakao Map API를 활용한 동적 다중 마커 렌더링 및 UI 연동
 
 ---
 
-## 📅 진행 로드맵 & 개발 요약
+## 🛠 기술 스택 (Tech Stack)
 
-### 📍 1일차: 개발 환경 세팅 & Git 관리 체계 구축
-* [cite_start]VS Code 및 Live Server 환경 세팅 [cite: 1126, 1690, 1692]
-* [cite_start]HTML5/CSS3 기반 Responsive Web 레이아웃(검색창, 헤더, 카드 UI) 설계 [cite: 1127, 1176]
-* [cite_start]macOS 폴더명 명명 규칙 정립 및 GitHub 원격 저장소 연동 [cite: 1210, 1273]
+### **Backend**
+- **Language**: Java 17
+- **Framework**: Spring Boot 3.2.x
+- **ORM / DB**: Spring Data JPA, H2 In-Memory Database
+- **Library**: Lombok, Jackson (JSON Parser)
 
-### 📍 2일차: Kakao Map API 연동 및 화면 렌더링
-* [cite_start]Kakao Developers 앱 생성 및 Live Server 도메인 승인 설정 [cite: 1395, 1398]
-* [cite_start]JavaScript 비동기 SDK 스크립트 연결 (`autoload=false` 적용) [cite: 1401, 1460]
-* [cite_start]서울시청 좌표 중심 지도 렌더링 및 마커 표시 구현 [cite: 1404, 1405]
+### **Frontend**
+- **Language/Markup**: HTML5, CSS3, JavaScript (ES6+ / Vanilla JS)
+- **Map API**: Kakao Maps API
 
-### 📍 3일차: 공공데이터 API 연동 및 다중 마커 표시
-* [cite_start]공공데이터포털(`한국관광공사_국문 관광정보 서비스`) API 발급 및 연동 [cite: 966, 1108]
-* [cite_start]`fetch()` API 기반 비동기 데이터 파싱 로직 구현 [cite: 965, 1117]
-* [cite_start]수신한 축제 좌표(위/경도) 기반 Kakao Map 다중 마커 동적 자동 생성 [cite: 976, 1118]
-
-### 📍 4주차(4일차): Java & Spring Boot 백엔드 환경 구축
-* [cite_start]Java 17(JDK) 및 IntelliJ IDEA 개발 환경 세팅 [cite: 1863, 1864]
-* [cite_start]Spring Initializr 기반 Spring Boot 프로젝트 뼈대 생성 (Spring Web, Lombok) [cite: 1868, 1869]
-* [cite_start]RestController 기반 첫 테스트 API (`GET /api/test`) 엔드포인트 구축 [cite: 1878, 1879]
-
-### 📍 5주차(5일차): 백엔드 공공 API 수집 & H2 DB 적재 파이프라인
-* [cite_start]H2 인메모리 데이터베이스 및 Spring Data JPA 환경 설정 [cite: 1745, 1753]
-* [cite_start]`Festival` Entity 및 `FestivalRepository` ORM 설계 [cite: 1848, 1852]
-* [cite_start]`RestTemplate` 및 `ObjectMapper`를 활용한 외부 공공 API 데이터 수집/DB 적재 로직 구축 [cite: 1714, 1715]
+### **DevOps & Tools**
+- **IDE**: IntelliJ IDEA, VS Code
+- **VCS**: Git, GitHub
 
 ---
 
-## 📝 상세 개발일지 및 트러블슈팅
+## ✨ 주요 기능 (Key Features)
 
-프로젝트 진행 과정에서 발생한 상세 문제 해결 과정과 일자별 학습 기록은 아래 개별 문서에서 확인하실 수 있습니다.
+1. **공공 데이터 수집 및 자동 DB 적재**
+   - 백엔드 서버 구동 시 (`@PostConstruct`) 외부 공공 API를 호출하여 데이터 포맷 정제 후 DB에 자동 저장.
+2. **카카오 지도 기반 다중 마커 표시**
+   - DB에 보관된 축제 데이터의 좌표(위도 `lat`, 경도 `lot`)를 수신하여 카카오 지도 위에 다중 마커 출력.
+3. **다중 조건 검색 및 필터링**
+   - **자치구 필터**: 드롭다운을 통해 특정 자치구(종로구, 마포구, 강남구 등) 선택 시 해당 지역으로 지도 이동 및 마커 재렌더링.
+   - **키워드 검색**: 축제 이름에 포함된 단어를 입력하여 동적 조회.
+4. **CORS 및 REST API 통신**
+   - Cross-Origin 자원 공유 정책 해제(`@CrossOrigin`)를 통한 프론트-백엔드 서버 간 비동기 REST API (`fetch`) 통신 연동.
 
-* 📅 **[일자별 상세 개발 일지 (`docs/DAILY_LOG.md`)](./docs/DAILY_LOG.md)**
-* 🛠️ **[트러블슈팅 & 문제 해결 기록 (`docs/TROUBLESHOOTING.md`)](./docs/TROUBLESHOOTING.md)**
+---
+
+## 🏗️ 시스템 아키텍처 및 API 엔드포인트
+
+### **API Specification**
+
+| Method | Endpoint | Description | Query Parameters |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/api/festivals` | 전체 축제 목록 조회 | - |
+| `GET` | `/api/festivals/search` | 자치구/키워드 조건 검색 | `district` (String), `keyword` (String) |
+| `GET` | `/api/festivals/save` | 수동 공공 API 데이터 수집 | - |
+
+---
+
+## 📁 프로젝트 구조 (Directory Structure)
+
+```text
+Festival-in-Seoul/
+├── docs/
+│   ├── DAILY_LOG.md          # 주차별 공부 및 진행 일지
+│   └── TROUBLESHOOTING.md   # 개발 과정 트러블슈팅 정돈 노트
+├── src/                      # Spring Boot 백엔드 소스 코드
+│   └── main/
+│       ├── java/Jar/
+│       │   ├── controller/   # FestivalApiController
+│       │   ├── domain/       # Festival Entity, Repository
+│       │   └── service/      # FestivalService
+│       └── resources/
+│           └── application.yml
+├── frontend/                 # 프론트엔드 웹 소스 코드
+│   ├── css/
+│   │   └── style.css
+│   ├── js/
+│   │   └── main.js
+│   └── index.html
+└── README.md                 # 프로젝트 메인 대문 문서
